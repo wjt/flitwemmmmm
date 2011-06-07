@@ -1,0 +1,78 @@
+#!/usr/bin/env python
+"""
+Kiretecossstap grabs a bunch of track names for artists and albums I know have
+stupid names.
+"""
+
+import sys
+import time
+
+import musicbrainz2.webservice as ws
+
+# Map from artist page to release IDs to include, or None to include all
+# releases.  This is basically a workaround for Three Trapped Tigers having
+# thirteen sequentially-numbered tracks.
+artists = {
+    # Aphex Twin
+    'http://musicbrainz.org/artist/f22942a1-6f70-4f48-866e-238cb2308fbd': None,
+    # Autechre
+    'http://musicbrainz.org/artist/410c9baf-5469-44f6-9852-826524b80c61': None,
+    # The Tuss
+    'http://musicbrainz.org/artist/09292e4d-b7ad-476b-86d9-7806303ef8c3': None,
+    # Three Trapped Tigers
+    'http://musicbrainz.org/artist/70212aa5-ade1-40b5-982e-964c79b08feb': [
+        # Route One or Die
+        'http://musicbrainz.org/release/6ab0db18-719b-421f-9864-1f8eaf1ad1ca',
+    ],
+    # Ruins (Progressive Rock band from Japan)
+    'http://musicbrainz.org/artist/8ca7f2ea-6a8d-412d-a188-f75abea72b67': None,
+
+    ## Squarepusher
+    'http://musicbrainz.org/artist/4d86ad4e-28d8-4e9f-8cf4-735c57060fdc': None,
+
+    # Battles
+    'http://musicbrainz.org/artist/8522b9b6-b295-48d7-9a10-8618fb80beb8': [
+        # Mirrored
+        'http://musicbrainz.org/release/bd32dcd0-5a09-4725-97ed-5918f55ee356',
+    ],
+}
+
+q = ws.Query()
+titles = set()
+
+try:
+    for artist_id, releases_to_include in artists.iteritems():
+        artist = q.getArtistById(artist_id,
+            ws.ArtistIncludes(
+                releases=(ws.Release.TYPE_ALBUM, ws.Release.TYPE_OFFICIAL))
+            )
+        sys.stderr.write('Fetched %s\n' % artist.name)
+
+        release_names = set()
+
+        for r in artist.releases:
+            release_id = r.id
+
+            if ((releases_to_include is None or
+                 release_id in releases_to_include) and
+               r.title not in release_names):
+                release_names.add(r.title)
+                release = q.getReleaseById(release_id,
+                    ws.ReleaseIncludes(tracks=True))
+                sys.stderr.write('  %s\n' % release.title)
+
+                for t in release.tracks:
+                    # hack...
+                    if r.title == 'Selected Ambient Works, Volume II' and \
+                       t.title[0] == '[':
+                        continue
+
+                    if r.title.endswith(' (1993 Remaster)'):
+                        continue
+
+                    titles.add(t.title)
+
+                time.sleep(1)
+finally:
+    for t in titles:
+        print t.encode('utf-8')
