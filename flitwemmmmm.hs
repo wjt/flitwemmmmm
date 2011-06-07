@@ -5,7 +5,7 @@ import qualified Data.Sequence as Seq
 import Data.Sequence (Seq)
 import qualified Data.Map as Map
 import Data.Map (Map)
-import System.Random
+import Control.Monad.Random
 
 compose :: [a -> a] -> (a -> a)
 compose = foldl' (.) id
@@ -29,27 +29,28 @@ updateWith title = compose updates
 buildModel :: [String] -> BigramModel
 buildModel titles = compose (map updateWith titles) Map.empty
 
-pickOne :: RandomGen g => BigramModel -> g -> Token -> (Token, g)
-pickOne model gen pre = (Seq.index candidates i, gen')
-  where
+pickOne :: RandomGen g => BigramModel -> Token -> Rand g Token
+pickOne model pre = do
     -- This is safe because every character that comes out of the model has to
     -- have gone into the model, and even a character which only appears at the
     -- end of a track name will map to [Extremity].
-    Just candidates = Map.lookup pre model
+    let Just candidates = Map.lookup pre model
+    i <- getRandomR (0, Seq.length candidates - 1)
+    return $ Seq.index candidates i
 
-    n = Seq.length candidates
-    (i, gen') = randomR (0, n-1) gen
-
-inventName :: RandomGen g => BigramModel -> g -> (String, g)
+inventName :: RandomGen g => BigramModel -> Rand g String
 inventName model = go Extremity
   where
-    go pre gen = case pickOne model gen pre of
-        (Extremity, gen') -> ("", gen')
-        (Letter c, gen') -> let (cs, gen'') = go (Letter c) gen'
-                            in  (c:cs, gen'')
+    go pre = do
+        ret <- pickOne model pre
+        case ret of
+            Extremity -> return ""
+            Letter c  -> do
+                cs <- go ret
+                return (c:cs)
 
 main = do
     titles <- fmap lines getContents
     let model = buildModel titles
-    gen <- getStdGen
-    putStrLn . fst $ inventName model gen
+    name <- evalRandIO $ inventName model
+    putStrLn name

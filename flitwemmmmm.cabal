@@ -20,7 +20,7 @@ Extra-source-files:  data
 
 Executable flitwemmmmm
   Main-is:       flitwemmmmm.hs
-  Build-depends: haskell2010, random, containers
+  Build-depends: haskell2010, random, containers, MonadRandom
 
 Source-repository head
   Type:     git
