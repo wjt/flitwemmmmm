@@ -1,0 +1,27 @@
+Cabal-version:       >= 1.6
+Name:                flitwemmmmm
+Version:             0.1
+Synopsis:            An IDM track name generator.
+Description:         Most IDM artists use track names that look like someone
+                     mashed on the keyboard. So this program builds up a noddy
+                     bigram language model from a file with one real IDM track
+                     name per line, and generates a plausible track name from
+                     the model. The output is largely indistinguishable from
+                     the genuine article.
+Homepage:            https://gitorious.org/flitwemmmmm
+License:             OtherLicense
+License-file:        LICENSE
+Author:              Will Thompson
+Maintainer:          will@willthompson.co.uk
+Category:            Music
+Build-type:          Simple
+Extra-source-files:  data
+
+
+Executable flitwemmmmm
+  Main-is:       flitwemmmmm.hs
+  Build-depends: haskell2010, random, containers
+
+Source-repository head
+  Type:     git
+  location: git://gitorious.org/flitwemmmmm/flitwemmmmm.git
