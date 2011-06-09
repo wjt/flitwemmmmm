@@ -21,6 +21,10 @@ import           Snap.Types
 import           Text.Templating.Heist
 
 import           Application
+import           Generator
+
+import           Control.Monad.Reader
+import           Control.Monad.Random (evalRandIO)
 
 
 ------------------------------------------------------------------------------
@@ -30,7 +34,12 @@ import           Application
 -- Otherwise, the way the route table is currently set up, this action
 -- would be given every request.
 index :: Application ()
-index = ifTop $ heistLocal (bindSplices indexSplices) $ render "index"
+index = ifTop $ do
+    model <- asks modelState
+    trackName <- liftIO . evalRandIO $ inventName model
+    heistLocal (bindSplices indexSplices) .
+        heistLocal (bindString "track-name" trackName) $
+            render "index"
   where
     indexSplices =
         [ ("start-time",   startTimeSplice)

@@ -7,6 +7,7 @@ information it requires.
 
 module Application
   ( Application
+  , ApplicationState (modelState)
   , applicationInitializer
   ) where
 
@@ -61,6 +62,6 @@ applicationInitializer = do
     heist <- heistInitializer "resources/templates"
     timer <- timerInitializer
 
-    model <- fmap (buildModel . lines) . liftIO $ readFile "new"
+    model <- liftIO $ readModel "new"
 
     return $ ApplicationState heist timer model

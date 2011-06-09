@@ -2,6 +2,7 @@ module Generator
   (
     Model
 
+  , readModel
   , buildModel
   , inventName
   )
@@ -13,6 +14,9 @@ import Data.Sequence (Seq)
 import qualified Data.Map as Map
 import Data.Map (Map)
 import Control.Monad.Random
+import qualified Data.Text as Text
+import Data.Text (Text)
+import qualified Data.Text.IO as TextIO
 
 compose :: [a -> a] -> (a -> a)
 compose = foldl' (.) id
@@ -21,7 +25,7 @@ data Token = Letter Char
            | Extremity
     deriving (Show, Ord, Eq)
 
-newtype Model = Model { unModel :: BigramModel }
+newtype Model = Model BigramModel
     deriving (Show, Ord, Eq)
 
 type BigramModel = Map Token (Seq Token)
@@ -36,8 +40,13 @@ updateWith title = compose updates
     letters = map Letter title
     updates = zipWith updateOne (Extremity:letters) (letters ++ [Extremity])
 
-buildModel :: [String] -> Model
-buildModel titles = Model $ compose (map updateWith titles) Map.empty
+buildModel :: [Text] -> Model
+buildModel titles = Model $ compose (map (updateWith . Text.unpack) titles) Map.empty
+
+readModel :: FilePath -> IO Model
+readModel f = do
+    contents <- TextIO.readFile f
+    return $ buildModel (Text.lines contents)
 
 pickOne :: RandomGen g => BigramModel -> Token -> Rand g Token
 pickOne model pre = do
@@ -48,13 +57,11 @@ pickOne model pre = do
     i <- getRandomR (0, Seq.length candidates - 1)
     return $ Seq.index candidates i
 
-inventName :: RandomGen g => Model -> Rand g String
+inventName :: RandomGen g => Model -> Rand g Text
 inventName (Model model) = go Extremity
   where
     go pre = do
         ret <- pickOne model pre
         case ret of
-            Extremity -> return ""
-            Letter c  -> do
-                cs <- go ret
-                return (c:cs)
+            Extremity -> return Text.empty
+            Letter c  -> Text.cons c `fmap` go ret

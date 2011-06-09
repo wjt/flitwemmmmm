@@ -1,22 +1,12 @@
 <html>
   <head>
-    <title>Snap web server</title>
+    <meta charset='utf-8'/>
+    <title>Flitwemmm</title>
     <link rel="stylesheet" type="text/css" href="screen.css"/>
   </head>
   <body>
     <div id="content">
-      <h1>It works!</h1>
-      <p>
-        This is a simple demo page served using
-        <a href="http://snapframework.com/docs/tutorials/heist">Heist</a>
-        and the <a href="http://snapframework.com/">Snap</a> web framework.
-      </p>
-      <p>
-        Echo test:
-        <a href="/echo/cats">cats</a>
-        <a href="/echo/dogs">dogs</a>
-        <a href="/echo/fish">fish</a>
-      </p>
+      <h1><track-name/></h1>
       <table id="info">
         <tr>
           <td>Config generated at:</td>
