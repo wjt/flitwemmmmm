@@ -1,4 +1,11 @@
-module Main where
+module Generator
+  (
+    Model
+
+  , buildModel
+  , inventName
+  )
+where
 
 import Data.List (foldl')
 import qualified Data.Sequence as Seq
@@ -14,6 +21,9 @@ data Token = Letter Char
            | Extremity
     deriving (Show, Ord, Eq)
 
+newtype Model = Model { unModel :: BigramModel }
+    deriving (Show, Ord, Eq)
+
 type BigramModel = Map Token (Seq Token)
 
 updateOne :: Token -> Token -> (BigramModel -> BigramModel)
@@ -26,8 +36,8 @@ updateWith title = compose updates
     letters = map Letter title
     updates = zipWith updateOne (Extremity:letters) (letters ++ [Extremity])
 
-buildModel :: [String] -> BigramModel
-buildModel titles = compose (map updateWith titles) Map.empty
+buildModel :: [String] -> Model
+buildModel titles = Model $ compose (map updateWith titles) Map.empty
 
 pickOne :: RandomGen g => BigramModel -> Token -> Rand g Token
 pickOne model pre = do
@@ -38,8 +48,8 @@ pickOne model pre = do
     i <- getRandomR (0, Seq.length candidates - 1)
     return $ Seq.index candidates i
 
-inventName :: RandomGen g => BigramModel -> Rand g String
-inventName model = go Extremity
+inventName :: RandomGen g => Model -> Rand g String
+inventName (Model model) = go Extremity
   where
     go pre = do
         ret <- pickOne model pre
@@ -48,9 +58,3 @@ inventName model = go Extremity
             Letter c  -> do
                 cs <- go ret
                 return (c:cs)
-
-main = do
-    titles <- fmap lines getContents
-    let model = buildModel titles
-    name <- evalRandIO $ inventName model
-    putStrLn name
