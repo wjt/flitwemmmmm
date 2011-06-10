@@ -25,6 +25,11 @@ data Token = Letter Char
            | Extremity
     deriving (Show, Ord, Eq)
 
+isLetter, isExtremity :: Token -> Bool
+isLetter (Letter _) = True
+isLetter _          = False
+isExtremity = not . isLetter
+
 newtype Model = Model BigramModel
     deriving (Show, Ord, Eq)
 
@@ -48,20 +53,30 @@ readModel f = do
     contents <- TextIO.readFile f
     return $ buildModel (Text.lines contents)
 
-pickOne :: RandomGen g => BigramModel -> Token -> Rand g Token
-pickOne model pre = do
+pickOne :: RandomGen g
+        => BigramModel
+        -> Token
+        -> Bool         -- ^ exclude Extremity from the candidates if possible
+        -> Rand g Token
+pickOne model pre excludeExtremity = do
     -- This is safe because every character that comes out of the model has to
     -- have gone into the model, and even a character which only appears at the
     -- end of a track name will map to [Extremity].
     let Just candidates = Map.lookup pre model
-    i <- getRandomR (0, Seq.length candidates - 1)
-    return $ Seq.index candidates i
+        candidateLetters = Seq.filter isLetter candidates
+        -- If requested, try to avoid ending the track name here.
+        candidates' = if excludeExtremity && not (Seq.null candidateLetters)
+                          then candidateLetters
+                          else candidates
+
+    i <- getRandomR (0, Seq.length candidates' - 1)
+    return $ Seq.index candidates' i
 
 inventName :: RandomGen g => Model -> Rand g Text
-inventName (Model model) = go Extremity
+inventName (Model model) = go Extremity 0
   where
-    go pre = do
-        ret <- pickOne model pre
+    go pre i = do
+        ret <- pickOne model pre (i < 2)
         case ret of
             Extremity -> return Text.empty
-            Letter c  -> Text.cons c `fmap` go ret
+            Letter c  -> Text.cons c `fmap` go ret (i + 1)
