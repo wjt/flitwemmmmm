@@ -342,7 +342,7 @@ photoUrl photoInfo = Text.pack $ concat [ "http://farm"
                             ]
 photoPageUrl photoInfo = Text.pack $ glitchbotBase ++ photoid photoInfo
   where
-    glitchbotBase = "http://www.flickr.com/people/glitchbot/"
+    glitchbotBase = "http://www.flickr.com/photos/glitchbot/"
 
 index :: Application ()
 index = ifTop $ do

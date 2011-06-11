@@ -23,8 +23,8 @@
     <div id="footer">
       This is an <a href="https://gitorious.org/flitwemmmmm">open source</a>
       toy which generates plausible IDM track names using a Markov chain.<br/>
-      The cover photo is <a href="$(photo-page-url)"><i><photo-title/></i> by
-      GlitchBot</a>.<br/><br/>
+      The cover photo is <a href="$(photo-page-url)"><i><photo-title/></i></a>
+      by <a href="http://www.flickr.com/people/GlitchBot">GlitchBot</a>.<br/><br/>
       Refresh the page to generate a new track.<br/><br/>
       Made by <a href="http://wjt.me.uk/">wjt</a>; inspired by <a
       href="http://ourbandiscalled.com">Our Band Is Called</a>.
