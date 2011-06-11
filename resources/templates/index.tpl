@@ -30,8 +30,9 @@
 
       Made by <a href="http://wjt.me.uk/">wjt</a>; powered by <a
       href="http://snapframework.com/">Snap</a> and <a
-      href="http://flickr.com/">Flickr</a>; inspired by <a
-      href="http://ourbandiscalled.com">Our Band Is Called</a> and a deep
+      href="http://flickr.com/">Flickr</a>; inspired by, and design stolen
+      from, <a href="http://ourbandiscalled.com">Our Band Is Called</a> by
+      Alexandre Testu; fueled by a deep
       admiration for <a href="http://last.fm/music/Autechre">Autechre</a>, <a
       href="http://www.last.fm/music/Three+Trapped+Tigers">Three Trapped
       Tigers</a>, and all the other bands whose track names formed the source
