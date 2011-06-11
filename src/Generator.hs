@@ -28,10 +28,9 @@ data Token = Letter Char
            | Extremity
     deriving (Show, Ord, Eq)
 
-isLetter, isExtremity :: Token -> Bool
+isLetter :: Token -> Bool
 isLetter (Letter _) = True
 isLetter _          = False
-isExtremity = not . isLetter
 
 newtype Model = Model BigramModel
     deriving (Show, Ord, Eq)
@@ -82,7 +81,7 @@ pickOne model pre excludeExtremity = do
     randomElem candidates'
 
 inventName :: RandomGen g => Model -> Rand g Text
-inventName (Model model) = go Extremity 0
+inventName (Model model) = go Extremity (0 :: Int)
   where
     go pre i = do
         ret <- pickOne model pre (i < 2)
