@@ -5,6 +5,9 @@ module Generator
   , readModel
   , buildModel
   , inventName
+
+  -- Really belongs in a Util.hs but...
+  , randomElem
   )
 where
 
@@ -53,6 +56,13 @@ readModel f = do
     contents <- TextIO.readFile f
     return $ buildModel (Text.lines contents)
 
+randomElem :: RandomGen g
+           => Seq a
+           -> Rand g a
+randomElem xs = do
+    i <- getRandomR (0, Seq.length xs - 1)
+    return $ Seq.index xs i
+
 pickOne :: RandomGen g
         => BigramModel
         -> Token
@@ -69,8 +79,7 @@ pickOne model pre excludeExtremity = do
                           then candidateLetters
                           else candidates
 
-    i <- getRandomR (0, Seq.length candidates' - 1)
-    return $ Seq.index candidates' i
+    randomElem candidates'
 
 inventName :: RandomGen g => Model -> Rand g Text
 inventName (Model model) = go Extremity 0

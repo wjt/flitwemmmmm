@@ -13,6 +13,7 @@
   <body>
     <div id="content">
       <h1><track-name/></h1>
+      <a href='$(photo-page-url)'><img src='$(photo-url)' /></a>
     </div>
   </body>
 </html>
