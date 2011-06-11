@@ -2,7 +2,7 @@
 <html lang='en'>
   <head>
     <meta charset='utf-8'/>
-    <title>Flitwemmm</title>
+    <title>My IDM masterpiece is called …</title>
     <link rel="stylesheet" type="text/css" href="screen.css"/>
     <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
     <link rel="apple-touch-icon" href="fruit-3.png" />
