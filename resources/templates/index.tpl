@@ -11,9 +11,21 @@
     <meta name="viewport" content="width=500, user-scalable=yes">
   </head>
   <body>
-    <div id="content">
-      <h1><track-name/></h1>
-      <a href='$(photo-page-url)'><img src='$(photo-url)' /></a>
+    <div id="vinyl">
+      <div id="cover">
+        <a href="/"><img src="$(photo-url)" alt=""/></a>
+      </div>
+    </div>
+    <h2><track-name/></h2>
+
+    <div id="footer">
+      This is an <a href="https://gitorious.org/flitwemmmmm">open source</a>
+      toy which generates plausible IDM track names using a Markov chain.<br/>
+      The cover photo is <a href="$(photo-page-url)"><i><photo-title/></i> by
+      GlitchBot</a>.<br/><br/>
+      Refresh the page to generate a new track.<br/><br/>
+      Made by <a href="http://wjt.me.uk/">wjt</a>; inspired by <a
+      href="http://ourbandiscalled.com">Our Band Is Called</a>.
     </div>
   </body>
 </html>

@@ -358,6 +358,7 @@ index = ifTop $ do
     let bindings = [ ("track-name", trackName)
                    , ("photo-url", photoUrl photoInfo)
                    , ("photo-page-url", photoPageUrl photoInfo)
+                   , ("photo-title", Text.pack $ title photoInfo)
                    ]
 
     heistLocal (bindStrings bindings) $ render "index"
