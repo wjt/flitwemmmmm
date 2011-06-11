@@ -8,7 +8,9 @@
     <link rel="apple-touch-icon" href="fruit-3.png" />
     <link rel="apple-touch-icon" sizes="72x72" href="fruit-pad.png" />
     <link rel="apple-touch-icon" sizes="114x114" href="fruit-4.png" />
-    <meta name="viewport" content="width=500, user-scalable=yes">
+    <meta name="viewport" content="width=500, user-scalable=yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   </head>
   <body>
     <div id="vinyl">
