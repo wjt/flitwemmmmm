@@ -2,7 +2,7 @@
 <html lang='en'>
   <head>
     <meta charset='utf-8'/>
-    <title>My IDM masterpiece is called …</title>
+    <title>My new single is …</title>
     <link rel="stylesheet" type="text/css" href="screen.css"/>
     <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
     <link rel="apple-touch-icon" href="fruit-3.png" />
@@ -20,12 +20,20 @@
 
     <div id="footer">
       This is an <a href="https://gitorious.org/flitwemmmmm">open source</a>
-      toy which generates plausible IDM track names using a Markov chain.<br/>
+      toy which generates plausible IDM track names using a Markov chain.
+      Refresh the page to generate another.<br/><br/>
+
       The cover photo is <a href="$(photo-page-url)"><i><photo-title/></i></a>
       by <a href="http://www.flickr.com/people/GlitchBot">GlitchBot</a>.<br/><br/>
-      Refresh the page to generate a new track.<br/><br/>
-      Made by <a href="http://wjt.me.uk/">wjt</a>; inspired by <a
-      href="http://ourbandiscalled.com">Our Band Is Called</a>.
+
+      Made by <a href="http://wjt.me.uk/">wjt</a>; powered by <a
+      href="http://snapframework.com/">Snap</a> and <a
+      href="http://flickr.com/">Flickr</a>; inspired by <a
+      href="http://ourbandiscalled.com">Our Band Is Called</a> and a deep
+      admiration for <a href="http://last.fm/music/Autechre">Autechre</a>, <a
+      href="http://www.last.fm/music/Three+Trapped+Tigers">Three Trapped
+      Tigers</a>, and all the other bands whose track names formed the source
+      material.
     </div>
   </body>
 </html>
