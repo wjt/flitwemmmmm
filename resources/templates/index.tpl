@@ -13,15 +13,17 @@
   <body>
     <div id="vinyl">
       <div id="cover">
-        <a href="/"><img src="$(photo-url)" alt=""/></a>
+        <a href="/"><img src="$(photo-url)" alt="$(photo-title)"/></a>
       </div>
     </div>
     <h2><track-name/></h2>
 
     <div id="footer">
       This is an <a href="https://gitorious.org/flitwemmmmm">open source</a>
-      toy which generates plausible IDM track names using a Markov chain.
-      Refresh the page to generate another.<br/><br/>
+      toy which generates plausible <a
+      href="http://en.wikipedia.org/wiki/Intelligent_dance_music">IDM</a> track
+      names using a poorly-implemented Markov chain. Refresh the page to
+      generate another.<br/><br/>
 
       The cover photo is <a href="$(photo-page-url)"><i><photo-title/></i></a>
       by <a href="http://www.flickr.com/people/GlitchBot">GlitchBot</a>.<br/><br/>
