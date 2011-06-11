@@ -27,40 +27,13 @@ import           Control.Monad.Reader
 import           Control.Monad.Random (evalRandIO)
 
 
-------------------------------------------------------------------------------
--- | Renders the front page of the sample site.
---
--- The 'ifTop' is required to limit this to the top of a route.
--- Otherwise, the way the route table is currently set up, this action
--- would be given every request.
 index :: Application ()
 index = ifTop $ do
     model <- asks modelState
     trackName <- liftIO . evalRandIO $ inventName model
-    heistLocal (bindSplices indexSplices) .
-        heistLocal (bindString "track-name" trackName) $
-            render "index"
-  where
-    indexSplices =
-        [ ("start-time",   startTimeSplice)
-        , ("current-time", currentTimeSplice)
-        ]
+    heistLocal (bindString "track-name" trackName) $ render "index"
 
-
-------------------------------------------------------------------------------
--- | Renders the echo page.
-echo :: Application ()
-echo = do
-    message <- decodedParam "stuff"
-    heistLocal (bindString "message" (T.decodeUtf8 message)) $ render "echo"
-  where
-    decodedParam p = fromMaybe "" <$> getParam p
-
-
-------------------------------------------------------------------------------
--- | The main entry point handler.
 site :: Application ()
 site = route [ ("/",            index)
-             , ("/echo/:stuff", echo)
              ]
        <|> serveDirectory "resources/static"
