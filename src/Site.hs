@@ -12,12 +12,9 @@ module Site
   ) where
 
 import           Control.Applicative
-import           Data.Maybe
-import qualified Data.Text.Encoding as T
 import qualified Data.Text as Text
 import Data.Text (Text)
 import           Snap.Extension.Heist
-import           Snap.Extension.Timer
 import           Snap.Util.FileServe
 import           Snap.Types
 import           Text.Templating.Heist
@@ -333,27 +330,25 @@ photos = Seq.fromList
     ]
 
 photoUrl, photoPageUrl :: PhotoInfo -> Text
-photoUrl pi = Text.pack $ concat [ "http://farm"
-                            , farm pi
+photoUrl photoInfo = Text.pack $ concat [ "http://farm"
+                            , farm photoInfo
                             , ".static.flickr.com/"
-                            , server pi
+                            , server photoInfo
                             , "/"
-                            , photoid pi
+                            , photoid photoInfo
                             , "_"
-                            , secret pi
+                            , secret photoInfo
                             , "_m.jpg"
                             ]
-photoPageUrl pi = Text.pack $ glitchbotBase ++ photoid pi
+photoPageUrl photoInfo = Text.pack $ glitchbotBase ++ photoid photoInfo
   where
     glitchbotBase = "http://www.flickr.com/people/glitchbot/"
 
 index :: Application ()
 index = ifTop $ do
     model <- asks modelState
-    (trackName, photoInfo) <- liftIO . evalRandIO $ do
-        t <- inventName model
-        pi <- randomElem photos
-        return (t, pi)
+    (trackName, photoInfo) <- liftIO . evalRandIO $
+        liftM2 (,) (inventName model) (randomElem photos)
 
     let bindings = [ ("track-name", trackName)
                    , ("photo-url", photoUrl photoInfo)
