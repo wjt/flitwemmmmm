@@ -19,7 +19,7 @@
     <h2><track-name/></h2>
 
     <div id="footer">
-      This is an <a href="https://gitorious.org/flitwemmmmm">open source</a>
+      This is an <a href="https://github.com/wjt/flitwemmmmm">open source</a>
       toy which generates plausible <a
       href="http://en.wikipedia.org/wiki/Intelligent_dance_music">IDM</a> track
       names using a poorly-implemented Markov chain. Refresh the page to

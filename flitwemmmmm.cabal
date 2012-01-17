@@ -11,14 +11,14 @@ License:             OtherLicense
 License-file:        LICENSE
 Author:              Will Thompson
 Maintainer:          will@willthompson.co.uk
-Homepage:            https://gitorious.org/flitwemmmmm
+Homepage:            https://github.com/wjt/flitwemmmmm
 Category:            Web
 Build-type:          Simple
 Cabal-version:       >=1.6
 
 Source-repository head
   Type:     git
-  location: git://gitorious.org/flitwemmmmm/flitwemmmmm.git
+  location: git://github.com/wjt/flitwemmmmm.git
 
 Flag development
   Description: Whether to build the server in development (interpreted) mode
